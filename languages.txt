@@ -1,0 +1,38 @@
+Arabic / - middle 				.2
+Spanish / Spaans- shallow			.1
+Norwegian / -SEYMOUR, SHALLOW COMPLEX (2/5)	.1
+Cantonese / - logographic				.0
+French / Frans - SEYMOUR, DEEP SIMPLE (4/5)	.3
+English / Engels - SEYMOUR, DEEP COMPLEX(5/5)	.3
+Bengali / - shallow				.1
+German / Duits- SEYMOUR, SHALLOW SIMPLE (2/5)	.1
+Turkish / - shallow				.1
+Catalan / - shallow ?				.1
+Irish / - middle				.2
+Welsh / - shallow				.1
+Hungarian / - shallow				.1
+Mandarin / - logographic			.0
+Italian / Italiaans - SEYMOUR, SHALLOW SIMPLE (2/5)	.1
+Hindi / - syllabary/alphabet			.0
+Swahili / - shallow				.1
+Dutch / Nederlands - SEYMOUR, MIDDLE  COMPLEX (3/5)	.2
+Serbian / - Shallow 				.1
+West Frisian / Fries - 				.2
+Danish / Deens - SEYMOUR, DEEP COMPLEX(4/5)	.3
+ASL / Amerikaanse Gebarentaal - non spoken	.0
+Bosnian / Bosnisch - Lump in w serbocroat	.1
+Latin / Latijn - no phon data 			.0
+Russian / Russisch				.2 (?)
+Korean / Koreaans - Syllabary			.0
+Japanese / Japans- Syllabary			.0
+Swedish / Zweeds - SEYMOUR MIDDLE COMPLEX (3/5)	.2
+Hebrew / Hebreeuws				.3
+Croatian / 					.1
+Polish / 					.1
+Farsi / Persian					.2
+Albanian / 					.1
+Danish / 					.2
+Azeri / Azerbaijani				.1 	
+Turkish / 					.1	
+Ancient Greek /					.0
+Chinese / 					.0			

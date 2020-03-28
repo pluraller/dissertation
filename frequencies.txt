@@ -1,0 +1,95 @@
+corpus Dutch Web 2014 (nlTenTen14)
+aan het kortste eind trekken			113, 0.04/million
+Als haringen in een ton zitten			2, less than 0.01/
+Alsof er een engeltje over je tong piest	10, less than 0.01/
+De kogel is door de kerk			645, 0.25/million
+De lakens uitdelen				91, 0.03/million
+Een appeltje met iemand te schillen hebben	1, less than 0.01/
+En frisse neus halen				3, less than 0.01/
+Helaas, pindakaas				516, 0.20/million
+Het Spaans benauwd krijgen			4, less than 0.01/
+Ieder dubbeltje omdraaien			10, less than 0.01/
+Iemand met apenmunt betalen			0, 0.00/
+iets met de Franse slag doen			0, 0.00/
+iets met een korreltje zout nemen		4, less than 0.01/
+iets onder de knie hebben			3, less than 0.01/
+ik zal dat varkentje wel even wassen		0, 0.00/
+in de bres springen voor			41, 0.02/million
+in de soep lopen				56, 0.02/million
+Komkommertijd					1254, 0.48/million
+kwaad met kwaad vergelden			63, 0.02/millon
+makkelijker gezegd dan gedaan			2193, 0.84/million
+man en paard noemen				44, 0.02/million
+Met de deur in huis vallen			502, 0.19/million
+Met de mond vol tanden staan			24, 0.01/million
+Nu breekt mijn klomp				19, 0.01/million
+Nu komt de aap uit de mouw			45, 0.02/million
+op een voetstuk staan				22, 0.01/million
+op zijn tandvlees lopen				1, less than 0.01/million
+Over koetjes en kalfjes praten			29, 0.02/million
+Wat heb ik nou aan mijn fiets hangen		7, less than 0.01/million
+Weten waar Abraham de mosterd haalt		26, 0.01/million
+
+corpus english web enTenTen15
+a blessing in disguise				2815, 0.15/million
+a busy bee					304, 0.02/million
+a little bird told me				152, 0.01/million
+a lot on my plate				152, 0.01/million
+across the pond					5638, 0.31/million
+add fuel to the fire				614, 0.03/millio
+against the grain				7514, 0.41/million
+alive and kicking				4188, 0.23/million
+baby boomer					6748, 0.37/million
+back to the drawing board			5437, 0.30/million
+beat around the bush				892, 0.05/million
+behind the scenes				102298, 5.56/million	
+better late than never				4,447, 0.24/million
+bite the bullet					2505, 0.14/million
+break a leg					1092, 0.06/million
+cross that bridge when we come to it		99, 0.01/million
+curiousity killed the cat			357, 0.02/million
+cutting corners					2372, 0.13/million
+dance with the devil				299, 0.02/million
+dont cry over spilt milk			1, less than 0.01/
+dutch courage					258, 0.01/million
+getting out of hand				1851, 0.10/million
+hit the nail on the head			3336, 0.18/million
+hit the sack					706, 0.04/million
+miss the boat					809, 0.04/million
+on the ball					12601, 0.69/million
+pulling your leg				172, 0.01/million
+speak of the devil				297, 0.02/million
+the last straw					4352, 0.24/million
+under the weather				2577, 0.14/million
+
+corpus german web 2013 deTenTen13
+am Hungertuch nagen				1367, 0.07/million
+auf den Trichter kommen				411, 0.02/million
+aus dem letzten Loch pfeifen			169, 0.01/million
+Da kannst du Gift drauf nehmen			68, less than 0.01/
+Da steppt der Bär				171, 0.01/million
+den Löffel abgeben				781, 0.04/million
+den Nagel auf den Kopf treffen			333, 0.02/million
+die Daumen drücken				8682, 0.44/million
+die Hucke volllügen				22, less than 0.01/million
+die Kirche im Dorf lassen			3206, 0.16/million
+die Suppe auslöffeln müssen			145, 0.01/million
+dumm wie Bohnenstroh				234, 0.01/million
+ein Fass aufmachen				390, 0.02/million
+eine Naschkatze sein				5, less than 0.01/million
+Einen Kloß im Hals haben			21, less than 0.01/million
+etwas wie die Westentasche kennen		0, 0.00/
+Geht weg wie warme Semmeln			183, 0.01/million
+Himmel und Hölle in Bewegung setzen		257, 0.01/million
+Hummeln im Hintern haben			36, less than 0.01/million
+Ich verstehe nur Bahnhof			375, 0.02/million
+Jemandem ein Ohr abkauen			1, less than 0.01/million
+klar wie Kloßbrühe				737, 0.04/million
+nicht aus Pappe sein				7, less than 0.01/million
+Schwein haben					382, 0.02/million
+seinen Senf dazugeben				712, 0.04/million
+Sich zum Affen machen				263, 0.01/million
+Tomaten auf den Augen haben			108, 0.01/million
+um den heißen Brei herumreden			689, 0.03/million		
+von der Rolle sein				61, less than 0.01/million
+zwei Fliegen mit einer Klappe schlagen		2602, 0.13/million
