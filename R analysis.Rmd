@@ -1,0 +1,237 @@
+---
+title: "secondary"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readxl)
+fullreworked <- read_excel("DISSY/diss stims/all code for git/fullreworked.xlsx", 
+    col_types = c("text", "text", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "text", "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric", 
+        "numeric", "numeric", "numeric"))
+View(fullreworked)
+library(ggplot2)
+library(ggfortify)
+library(lme4)
+library(broom)
+library(car)
+library(readxl)
+library(lmerTest)
+library(psych)
+library(tidyverse)
+library(MASS)
+library(robustlmm)
+library(sjPlot)
+library(sjmisc)
+library(sjstats)
+library(sjlabelled)
+```
+
+```{r}
+fullreworked <- fullreworked[which(fullreworked$`exposure %: Language 1` >50),]
+timing <- fullreworked$Timing
+stimlengths <- fullreworked$`Stim length`
+fullreworked$`log(Timing)` <- log(fullreworked$Timing)
+timing_log <- fullreworked$`log(Timing)`
+totallangs <- fullreworked$`no. languages known`
+lang_group <- factor(fullreworked$`Language Group`)
+fullreworked$`Response ID` <- factor(fullreworked$`Response ID`)
+responseID <- fullreworked$`Response ID`
+edu_years <- fullreworked$`How many years of formal education do you have?`
+edu_level <- fullreworked$`Please check your highest education level`
+age_begin <- fullreworked$`Age in years when you... - Began reading in native`
+age_fluent <- fullreworked$`Age in years when you... - Became fluent in reading native`
+shapiro.test(timing)
+
+```
+
+non normal
+
+## CHECK FOR INDEPENDENCE OF PARTICIPANTS
+
+```{r}
+leveneTest(timing, responseID)
+leveneTest(timing, lang_group)
+```
+
+heteroscedastic measurements
+
+```{r}
+kruskal.test(timing, responseID)
+kruskal.test(timing, lang_group)
+kruskal.test(stimlengths, lang_group)
+```
+different medians
+
+```{r}
+ggplot(data=fullreworked, aes(x= lang_group, y=timing, group=lang_group, color=lang_group)) + geom_boxplot(outlier.shape='cross') + ylab('Response time (s)') + xlab('Language group') + labs(color='')
+```
+## stim length affect on timing
+``` {r}
+ggplot(data=fullreworked, aes(fullreworked$`Stim length`, fullreworked$Timing)) + geom_smooth(method='lm') + geom_point() + xlab('Stimulus length by number of words') + ylab('Response time (s)') + geom_jitter()
+```
+
+```{r}
+cor.test(stimlengths, timing, method=('spearman'))
+```
+
+```{r}
+ggplot(data=fullreworked, aes(x = stimlengths, y = timing)) + 
+  geom_point() +
+  geom_smooth(method='lm') + xlab('Stimulus length by number of words') + ylab('Response time (s)')
+
+ggplot(data=fullreworked, aes(x = stimlengths, y=timing, group=stimlengths)) + geom_boxplot() + xlab('Stimulus length by number of words') + ylab('Response time (s)')
+
+ggplot(data=fullreworked, aes(x=stimlengths, fill=lang_group)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Stimulus length by number of words') + ylab('Frequency') + guides(fill=guide_legend(title="Language group"))
+```
+
+```{r}
+ggplot(data = fullreworked, aes(x = totallangs, y = timing_log)) +
+  geom_point() +
+  ylim(c(0, 250)) +
+  geom_smooth(method = 'lm') + ylim(0,6) + geom_jitter(width=0.1, height=0) + 
+  xlab('Total languages known') +
+  ylab('log(Response time (s)')
+
+ggplot(data=fullreworked, aes(x = totallangs, y=timing_log, group=totallangs)) + geom_boxplot() + xlab('Number  of languages known') + ylab('log(Response time (s))')
+
+ggplot(data=fullreworked, aes(x=totallangs, fill=lang_group)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Total languages known') + ylab('Frequency') +  guides(fill=guide_legend(title="Language group"))
+```
+
+```{r}
+
+totallang_mod <- lmer(timing_log ~ stimlengths * totallangs + (1|responseID), data=fullreworked)
+AIC(totallang_mod)
+summary(totallang_mod)
+leveneTest(residuals(totallang_mod), totallangs)
+shapiro.test(residuals(totallang_mod))
+```
+```{r}
+ggplot(data = fullreworked, aes(x=stimlengths, y=timing, color=lang_group)) +
+  geom_point() +
+  geom_smooth(method=lm) + 
+  xlab('Length of stimulus') + 
+  ylab('Response time (s)') +
+  labs(color='Language group')
+```
+```{r}
+ref_E <- relevel(factor(lang_group), ref = 'English')
+multiple_log_E <- lmer(timing_log ~ stimlengths * ref_E + (1|responseID), data=fullreworked)
+summary(multiple_log_E)
+```
+
+
+```{r}
+ref_D <- relevel(factor(fullreworked$`Language Group`), ref = 'Dutch')
+multiple_log_D <- lmer(timing_log ~ stimlengths * ref_D + (1|responseID), data=fullreworked)
+summary(multiple_log_D)
+isSingular(multiple_log_D)
+```
+
+```{r}
+multilingualism_full_E <- lmer(timing_log ~ stimlengths * ref_E + totallangs + totallangs:stimlengths + (1|responseID), data=fullreworked)
+summary(multilingualism_full_E)
+multilingualism_full_D <- lmer(timing_log ~ stimlengths * ref_D + totallangs + totallangs:stimlengths +  (1|responseID), data=fullreworked)
+other <- multilingualism_full_D <- lmer(timing_log ~ stimlengths * ref_D * totallangs + (1|responseID), data=fullreworked)
+summary(other)
+AIC(other)
+AIC(multilingualism_full_D)
+summary(multilingualism_full_D)
+ref_G <- relevel(factor(fullreworked$`Language Group`), ref ='German')
+multilingualism_full_G <- lmer(timing_log ~ stimlengths * ref_G + totallangs + totallangs:stimlengths + (1|responseID), data=fullreworked)
+summary(multilingualism_full_G)
+#ggplot(fortify(multilingualism_full_E), aes(stimlengths, timing_log, shape=ref_E, color=as.factor(totallangs))) +
+  #stat_summary(fun.data=mean_se, geom="pointrange") +
+  #stat_summary(aes(y=.fitted), fun.y=mean, geom="line")
+```
+
+
+```{r}
+aug_mul_log_E <- augment(multiple_log_E)
+leveneTest(aug_mul_log_E$.resid, aug_mul_log_E$ref_E)
+aug_mul_log_D <- augment(multiple_log_D)
+leveneTest(aug_mul_log_D$.resid, aug_mul_log_D$ref_D)
+```
+
+# HOMOGENEITY, MINT
+```{r}
+aug_multi_E <- augment(multilingualism_full_E)
+leveneTest(aug_multi_E$.resid, aug_multi_E$ref_E)
+aug_multi_D <- augment(multilingualism_full_D)
+leveneTest(aug_multi_D$.resid, aug_multi_D$ref_D)
+```
+
+# HOMOGENEITY, MINT
+
+```{r}
+1-var(residuals(multilingualism_full_E))/(var(model.response(model.frame(multilingualism_full_E))))
+```
+# effect size
+Xu, R. 2003. Measuring explained variation in linear mixed effects models. Statist. Med. 22:3527-3541. doi:10.1002/sim.1572
+
+```{r}
+edu_model <- lmer(timing_log ~ stimlengths * edu_level + (1+stimlengths * edu_level|responseID), data=fullreworked)
+summary(edu_model)
+
+```
+
+```{r}
+age_model <- lmer(timing_log ~ stimlengths * age_begin * age_fluent + (1 + stimlengths*age_begin*age_fluent|responseID), data=fullreworked)
+summary(age_model)
+singular <- lmer(timing_log ~ stimlengths * age_begin * age_fluent + (stimlengths*age_begin*age_fluent|responseID), data=fullreworked)
+summary(singular)
+stillsingular <- lmer(timing_log ~ stimlengths * age_begin * age_fluent + (1 + stimlengths + age_begin + age_fluent|responseID), data=fullreworked)
+summary(stillsingular)
+bigolmodel <- lmer(timing_log ~ stimlengths * age_begin * age_fluent * lang_group+ (1 + stimlengths*age_begin*age_fluent|responseID), data=fullreworked)
+summary(bigolmodel)
+AIC(age_model)
+isSingular(age_model)
+AIC(singular)
+isSingular(singular)
+AIC(stillsingular)
+isSingular(stillsingular)
+AIC(bigolmodel)
+```
+
+#MAIN ANALYSIS
+
+```{r}
+main1 <- lmer(timing_log ~ lang_group * stimlengths + (1 + lang_group * stimlengths|responseID), data=fullreworked)
+AIC(main1)
+main2 <- lmer(timing_log ~ lang_group * stimlengths + (lang_group * stimlengths|responseID), data=fullreworked)
+AIC(main2)
+main3 <- lmer(timing_log ~ lang_group * stimlengths + (1 + lang_group + stimlengths|responseID), data=fullreworked)
+AIC(main3)
+main4 <- lmer(timing_log ~ lang_group * stimlengths + (lang_group + stimlengths|responseID), data=fullreworked)
+AIC(main4)
+main5 <- lmer(timing_log ~ lang_group * stimlengths + (1|responseID), data=fullreworked)
+
+AIC(main5)
+summary(main5)
+shapiro.test(residuals(main5))
+car::leveneTest(residuals(main5), lang_group)
+1-var(residuals(main5))/(var(model.response(model.frame(main5))))
+fixef(main5)
+anova(main5)
+r2(main5)
+MuMIn::r.squaredGLMM(main5)
+```
+```{r}
+ggplot(data=fullreworked, aes(x=age_begin, fill=lang_group)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Age of reading onset') + ylab('Frequency') + guides(fill=guide_legend(title='Language group'))
+```
+```{r}
+ggplot(data=fullreworked, aes(x=age_fluent, fill=lang_group)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Age of attainemnt of reading fluency') + ylab('Frequency') + guides(fill=guide_legend(title='Language group'))
+```
+```{r}
+mean(na.omit(age_begin))
+mean(na.omit(age_fluent))
+```
