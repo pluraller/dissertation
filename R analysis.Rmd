@@ -5,7 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(readxl)
+library(read./xl)
 fullreworked <- read_excel("DISSY/diss stims/all code for git/fullreworked.xlsx", 
     col_types = c("text", "text", "numeric", 
         "numeric", "numeric", "numeric", 
