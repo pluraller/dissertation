@@ -50,8 +50,8 @@ edu_years <- fullreworked$`How many years of formal education do you have?`
 edu_level <- fullreworked$`Please check your highest education level`
 age_begin <- fullreworked$`Age in years when you... - Began reading in native`
 age_fluent <- fullreworked$`Age in years when you... - Became fluent in reading native`
-shapiro.test(timing)
-
+shapiro.test(timing_log)
+ks.test(timing_log, 'pnorm', mean=mean(timing_log), sd=sd(timing_log))
 ```
 
 non normal
@@ -140,18 +140,16 @@ isSingular(multiple_log_D)
 ```{r}
 multilingualism_full_E <- lmer(timing_log ~ stimlengths * ref_E + totallangs + totallangs:stimlengths + (1|responseID), data=fullreworked)
 summary(multilingualism_full_E)
-multilingualism_full_D <- lmer(timing_log ~ stimlengths * ref_D + totallangs + totallangs:stimlengths +  (1|responseID), data=fullreworked)
+multilingualism_full_D <- lmer(timing_log ~ stimlengths * ref_D + totallangs + totallangs:stimlengths +  (stimlengths + ref_D|responseID), data=fullreworked)
+multilingualism_full_D_simple <- lmer(timing_log ~ stimlengths * ref_D + totallangs + totallangs:stimlengths +  (1|responseID), data=fullreworked)
 other <- multilingualism_full_D <- lmer(timing_log ~ stimlengths * ref_D * totallangs + (1|responseID), data=fullreworked)
 summary(other)
 AIC(other)
 AIC(multilingualism_full_D)
-summary(multilingualism_full_D)
-ref_G <- relevel(factor(fullreworked$`Language Group`), ref ='German')
-multilingualism_full_G <- lmer(timing_log ~ stimlengths * ref_G + totallangs + totallangs:stimlengths + (1|responseID), data=fullreworked)
-summary(multilingualism_full_G)
-#ggplot(fortify(multilingualism_full_E), aes(stimlengths, timing_log, shape=ref_E, color=as.factor(totallangs))) +
-  #stat_summary(fun.data=mean_se, geom="pointrange") +
-  #stat_summary(aes(y=.fitted), fun.y=mean, geom="line")
+summary(multilingualism_full_D_simple)
+summary(multilingualism_full_E)
+leveneTest(residuals(multilingualism_full_D_simple), ref_D)
+
 ```
 
 
@@ -234,4 +232,15 @@ ggplot(data=fullreworked, aes(x=age_fluent, fill=lang_group)) + geom_histogram(n
 ```{r}
 mean(na.omit(age_begin))
 mean(na.omit(age_fluent))
+```
+
+
+```{r}
+eng <- subset(fullreworked, `Language Group` == 'English')
+dutch <- subset(fullreworked, `Language Group` == 'Dutch')
+ger <- subset(fullreworked, `Language Group` == 'German')
+engy <-ggplot(data=eng, aes(eng$`Stim length`)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Stimulus length') + ylab('Frequency')
+dutty <- ggplot(data=dutch, aes(dutch$`Stim length`)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Stimulus length') + ylab('Frequency')
+gerry <- ggplot(data=ger, aes(ger$`Stim length`)) + geom_histogram(na.rm=TRUE, bins=20) + xlab('Stimulus length') + ylab('Frequency')
+ggarrange(engy, dutty, gerry, labels = c('English', 'Dutch', 'German'), ncol=2, nrow = 2)
 ```
